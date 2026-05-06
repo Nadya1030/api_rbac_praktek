@@ -1,0 +1,13 @@
+import winston from 'winston';
+
+export const logger = winston.createLogger({
+  level: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.printf((info: winston.Logform.TransformableInfo) => {
+      return `[${String(info['timestamp'])}] ${info.level}: ${info.message}`;
+    })
+  ),
+  transports: [new winston.transports.Console()],
+});
